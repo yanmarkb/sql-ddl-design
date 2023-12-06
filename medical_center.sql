@@ -1,44 +1,48 @@
 -- This SQL script creates tables for a medical center database.
 -- The tables include Doctors, Patients, Visits, and Diseases.
 
+-- Drop the database if it already exists
 DROP DATABASE IF EXISTS fake_medical_center_db;
 
+-- Create a new database
 CREATE DATABASE fake_medical_center_db;
 
+-- Connect to the newly created database
 \c fake_medical_center_db
 
 -- The Doctors table stores information about the doctors, including their ID and name.
 CREATE TABLE Doctors (
-    doctor_id INT PRIMARY KEY UNIQUE,
-    doctor_name VARCHAR(100) NOT NULL UNIQUE
+    doctor_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each doctor
+    doctor_name VARCHAR(100) NOT NULL UNIQUE -- Name of the doctor
 );
 
 -- The Patients table stores information about the patients, including their ID and name.
 CREATE TABLE Patients (
-    patient_id INT PRIMARY KEY UNIQUE,
-    patient_name VARCHAR(100) NOT NULL UNIQUE
+    patient_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each patient
+    patient_name VARCHAR(100) NOT NULL UNIQUE -- Name of the patient
 );
 
 -- The Visits table stores information about the visits made by patients to doctors, including the visit ID, doctor ID, patient ID, and visit date.
 CREATE TABLE Visits (
-    visit_id INT PRIMARY KEY UNIQUE,
-    doctor_id INT UNIQUE,
-    patient_id INT UNIQUE,
-    visit_date DATE,
-    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL,
-    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE SET NULL
+    visit_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each visit
+    doctor_id INT UNIQUE, -- ID of the doctor associated with the visit
+    patient_id INT UNIQUE, -- ID of the patient associated with the visit
+    visit_date DATE, -- Date of the visit
+    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL, -- Ensures that the doctor ID references a valid doctor in the Doctors table
+    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE SET NULL -- Ensures that the patient ID references a valid patient in the Patients table
 );
 
 -- The Diseases table stores information about the diseases diagnosed during the visits, including the disease ID, disease name, and visit ID.
 CREATE TABLE Diseases (
-    disease_id INT PRIMARY KEY UNIQUE,
-    disease_name VARCHAR(100) NOT NULL UNIQUE,
-    visit_id INT,
-    FOREIGN KEY (visit_id) REFERENCES Visits(visit_id) ON DELETE SET NULL
+    disease_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each disease
+    disease_name VARCHAR(100) NOT NULL UNIQUE, -- Name of the disease
+    visit_id INT, -- ID of the visit associated with the disease
+    FOREIGN KEY (visit_id) REFERENCES Visits(visit_id) ON DELETE SET NULL -- Ensures that the visit ID references a valid visit in the Visits table
 );
 
 -- The tables are linked through foreign key constraints to ensure data integrity.
 
+-- Insert sample data into the Doctors table
 INSERT INTO Doctors 
 (doctor_id, doctor_name) 
 VALUES
@@ -46,6 +50,7 @@ VALUES
 (2, 'Dr. Johnson'),
 (3, 'Dr. Williams');
 
+-- Insert sample data into the Patients table
 INSERT INTO Patients 
 (patient_id, patient_name) 
 VALUES
@@ -53,6 +58,7 @@ VALUES
 (2, 'Jane Doe'),
 (3, 'Jim Brown');
 
+-- Insert sample data into the Visits table
 INSERT INTO Visits 
 (visit_id, doctor_id, patient_id, visit_date) 
 VALUES
@@ -60,6 +66,7 @@ VALUES
 (2, 2, 2, '2022-01-02'),
 (3, 3, 3, '2022-01-03');
 
+-- Insert sample data into the Diseases table
 INSERT INTO Diseases 
 (disease_id, disease_name, visit_id) 
 VALUES
