@@ -12,8 +12,7 @@ CREATE DATABASE fake_soccer_league_db;
 -- The "Teams" table stores information about each team participating in the league, including a unique team ID and the team name.
 CREATE TABLE Teams (
     team_id INT PRIMARY KEY, -- Unique identifier for each team
-    team_name VARCHAR(100) NOT NULL, -- Name of the team
-    CONSTRAINT team_name UNIQUE (team_name) -- Ensure team names are unique
+    team_name VARCHAR(100) PRIMARY KEY, -- Name of the team
 );
 
 -- The "Players" table stores information about each player, including a unique player ID, player name, and the team they belong to. The team ID is a foreign key referencing the "Teams" table.
@@ -22,13 +21,12 @@ CREATE TABLE Players (
     player_name VARCHAR(100) NOT NULL, -- Name of the player
     team_id INT, -- ID of the team the player belongs to
     FOREIGN KEY (team_id) REFERENCES Teams(team_id) ON DELETE SET NULL, -- Establish a relationship with the "Teams" table
-    CONSTRAINT player_name UNIQUE (player_name) -- Ensure player names are unique
 );
 
 -- The "Referees" table stores information about each referee, including a unique referee ID and the referee name.
 CREATE TABLE Referees (
     referee_id INT PRIMARY KEY, -- Unique identifier for each referee
-    referee_name VARCHAR(100) NOT NULL UNIQUE -- Name of the referee (must be unique)
+    referee_name VARCHAR(100) NOT NULL UNIQUE -- Name of the referee (must be unique). Could use PRIMARY KEY here instead of UNIQUE and NOT NULL?
 );
 
 -- The "Seasons" table stores information about each season, including a unique season ID, start date, and end date.
@@ -55,8 +53,8 @@ CREATE TABLE Matches (
 -- The "Goals" table stores information about each goal scored in a match, including a unique goal ID, the ID of the player who scored the goal, the ID of the match the goal was scored in, and the time of the goal. The player ID and match ID are foreign keys referencing the "Players" and "Matches" tables respectively.
 CREATE TABLE Goals (
     goal_id INT PRIMARY KEY, -- Unique identifier for each goal
-    player_id INT UNIQUE, -- ID of the player who scored the goal
-    match_id INT UNIQUE, -- ID of the match the goal was scored in
+    player_id INT UNIQUE, -- ID of the player who scored the goal. Maybe should be PRIMARY KEY?
+    match_id INT UNIQUE, -- ID of the match the goal was scored in. Maybe should be PRIMARY KEY?
     goal_time TIME NOT NULL, -- Time of the goal
     FOREIGN KEY (player_id) REFERENCES Players(player_id) ON DELETE SET NULL, -- Establish a relationship with the "Players" table
     FOREIGN KEY (match_id) REFERENCES Matches(match_id) ON DELETE SET NULL -- Establish a relationship with the "Matches" table

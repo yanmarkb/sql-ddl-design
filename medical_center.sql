@@ -12,8 +12,8 @@ CREATE DATABASE fake_medical_center_db;
 
 -- The Doctors table stores information about the doctors, including their ID and name.
 CREATE TABLE Doctors (
-    doctor_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each doctor
-    doctor_name VARCHAR(100) NOT NULL UNIQUE -- Name of the doctor
+    doctor_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each doctor. DOES PRIMARY KEY IMPLY UNIQUE?
+    doctor_name VARCHAR(100) NOT NULL UNIQUE -- Name of the doctor. Maybe not a good idea to have purely unique names, but this is just an example. Is there an order NOT NULL and UNIQUE have to be in? Discuss with Ben.
 );
 
 -- The Patients table stores information about the patients, including their ID and name.
@@ -25,9 +25,9 @@ CREATE TABLE Patients (
 -- The Visits table stores information about the visits made by patients to doctors, including the visit ID, doctor ID, patient ID, and visit date.
 CREATE TABLE Visits (
     visit_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each visit
-    doctor_id INT UNIQUE, -- ID of the doctor associated with the visit
-    patient_id INT UNIQUE, -- ID of the patient associated with the visit
-    visit_date DATE, -- Date of the visit
+    doctor_id INT UNIQUE, -- ID of the doctor associated with the visit.  Maybe make this NOT NULL?
+    patient_id INT UNIQUE, -- ID of the patient associated with the visit. This too!
+    visit_date DATE, -- Date of the visit.
     FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL, -- Ensures that the doctor ID references a valid doctor in the Doctors table
     FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE SET NULL -- Ensures that the patient ID references a valid patient in the Patients table
 );
@@ -35,7 +35,7 @@ CREATE TABLE Visits (
 -- The Diseases table stores information about the diseases diagnosed during the visits, including the disease ID, disease name, and visit ID.
 CREATE TABLE Diseases (
     disease_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each disease
-    disease_name VARCHAR(100) NOT NULL UNIQUE, -- Name of the disease
+    disease_name VARCHAR(100) NOT NULL UNIQUE, -- Name of the disease. Maybe could use PRIMARY KEY here instead of UNIQUE and NOT NULL?
     visit_id INT, -- ID of the visit associated with the disease
     FOREIGN KEY (visit_id) REFERENCES Visits(visit_id) ON DELETE SET NULL -- Ensures that the visit ID references a valid visit in the Visits table
 );
