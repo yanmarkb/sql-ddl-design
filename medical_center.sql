@@ -25,8 +25,8 @@ CREATE TABLE Visits (
     doctor_id INT UNIQUE,
     patient_id INT UNIQUE,
     visit_date DATE,
-    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
-    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id)
+    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id) ON DELETE SET NULL,
+    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE SET NULL
 );
 
 -- The Diseases table stores information about the diseases diagnosed during the visits, including the disease ID, disease name, and visit ID.
@@ -34,7 +34,7 @@ CREATE TABLE Diseases (
     disease_id INT PRIMARY KEY UNIQUE,
     disease_name VARCHAR(100) NOT NULL UNIQUE,
     visit_id INT,
-    FOREIGN KEY (visit_id) REFERENCES Visits(visit_id)
+    FOREIGN KEY (visit_id) REFERENCES Visits(visit_id) ON DELETE SET NULL
 );
 
 -- The tables are linked through foreign key constraints to ensure data integrity.

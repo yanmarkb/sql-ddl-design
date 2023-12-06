@@ -18,7 +18,7 @@ CREATE TABLE Players (
     player_id INT PRIMARY KEY,
     player_name VARCHAR(100) NOT NULL,
     team_id INT,
-    FOREIGN KEY (team_id) REFERENCES Teams(team_id),
+    FOREIGN KEY (team_id) REFERENCES Teams(team_id) ON DELETE SET NULL,
     CONSTRAINT player_name UNIQUE (player_name)
 );
 
@@ -44,10 +44,10 @@ CREATE TABLE Matches (
     referee_id INT UNIQUE,
     season_id INT UNIQUE,
     match_date DATE NOT NULL,
-    FOREIGN KEY (team1_id) REFERENCES Teams(team_id),
-    FOREIGN KEY (team2_id) REFERENCES Teams(team_id),
-    FOREIGN KEY (referee_id) REFERENCES Referees(referee_id),
-    FOREIGN KEY (season_id) REFERENCES Seasons(season_id)
+    FOREIGN KEY (team1_id) REFERENCES Teams(team_id) ON DELETE SET NULL,
+    FOREIGN KEY (team2_id) REFERENCES Teams(team_id) ON DELETE SET NULL,
+    FOREIGN KEY (referee_id) REFERENCES Referees(referee_id) ON DELETE SET NULL,
+    FOREIGN KEY (season_id) REFERENCES Seasons(season_id) ON DELETE SET NULL
 );
 
 -- The "Goals" table stores information about each goal scored in a match, including a unique goal ID, the ID of the player who scored the goal, the ID of the match the goal was scored in, and the time of the goal. The player ID and match ID are foreign keys referencing the "Players" and "Matches" tables respectively.
@@ -56,8 +56,8 @@ CREATE TABLE Goals (
     player_id INT UNIQUE,
     match_id INT UNIQUE,
     goal_time TIME NOT NULL,
-    FOREIGN KEY (player_id) REFERENCES Players(player_id),
-    FOREIGN KEY (match_id) REFERENCES Matches(match_id)
+    FOREIGN KEY (player_id) REFERENCES Players(player_id) ON DELETE SET NULL,
+    FOREIGN KEY (match_id) REFERENCES Matches(match_id) ON DELETE SET NULL
 );
 
 INSERT INTO Teams 

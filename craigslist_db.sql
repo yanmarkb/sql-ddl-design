@@ -18,7 +18,7 @@ CREATE TABLE Users (
     user_id INT PRIMARY KEY,
     user_name VARCHAR(100) NOT NULL UNIQUE,
     preferred_region_id INT,
-    FOREIGN KEY (preferred_region_id) REFERENCES Regions(region_id)
+    FOREIGN KEY (preferred_region_id) REFERENCES Regions(region_id) ON DELETE SET NULL
 );
 
 -- The Categories table stores information about different categories of posts.
@@ -36,9 +36,9 @@ CREATE TABLE Posts (
     location VARCHAR(100) NOT NULL,
     region_id INT,
     category_id INT,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (region_id) REFERENCES Regions(region_id),
-    FOREIGN KEY (category_id) REFERENCES Categories(category_id)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (region_id) REFERENCES Regions(region_id) ON DELETE SET NULL,
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id) ON DELETE SET NULL
 );
 
 INSERT INTO Regions 
