@@ -1,5 +1,5 @@
 -- This SQL script creates tables for a medical center database.
--- The tables include Doctors, Patients, Visits, and Diseases.
+-- The tables include Doctors, Patients, Visits, Diseases, and Diagnoses.
 
 -- Drop the database if it already exists
 DROP DATABASE IF EXISTS fake_medical_center_db;
@@ -40,6 +40,16 @@ CREATE TABLE Diseases (
     FOREIGN KEY (visit_id) REFERENCES Visits(visit_id) ON DELETE SET NULL -- Ensures that the visit ID references a valid visit in the Visits table
 );
 
+-- The Diagnoses table stores information about the diagnoses made during the visits, including the diagnosis ID, visit ID, disease ID, and notes.
+CREATE TABLE Diagnoses (
+    diagnosis_id INT PRIMARY KEY UNIQUE, -- Unique identifier for each diagnosis
+    visit_id INT, -- ID of the visit associated with the diagnosis
+    disease_id INT, -- ID of the disease associated with the diagnosis
+    notes VARCHAR(255), -- Additional notes for the diagnosis
+    FOREIGN KEY (visit_id) REFERENCES Visits(visit_id) ON DELETE SET NULL, -- Ensures that the visit ID references a valid visit in the Visits table
+    FOREIGN KEY (disease_id) REFERENCES Diseases(disease_id) ON DELETE SET NULL -- Ensures that the disease ID references a valid disease in the Diseases table
+);
+
 -- The tables are linked through foreign key constraints to ensure data integrity.
 
 -- Insert sample data into the Doctors table
@@ -73,3 +83,11 @@ VALUES
 (1, 'Flu', 1),
 (2, 'Cold', 2),
 (3, 'COVID-19', 3);
+
+-- Insert sample data into the Diagnoses table
+INSERT INTO Diagnoses 
+(diagnosis_id, visit_id, disease_id, notes) 
+VALUES
+(1, 1, 1, 'Patient has high fever'),
+(2, 2, 2, 'Patient has a runny nose'),
+(3, 3, 3, 'Patient tested positive for COVID-19');
